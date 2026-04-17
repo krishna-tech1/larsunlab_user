@@ -22,7 +22,7 @@ export const getEvents = async (req, res) => {
 // @access  Private/Admin
 export const createEvent = async (req, res) => {
   try {
-    const { title, description, location, date, type } = req.body;
+    const { title, description, location, date, endDate, type } = req.body;
     
     // Create the event first
     const event = await prisma.event.create({
@@ -31,6 +31,7 @@ export const createEvent = async (req, res) => {
         description,
         location,
         date,
+        endDate,
         type,
       },
     });
@@ -73,7 +74,7 @@ export const createEvent = async (req, res) => {
 export const updateEvent = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description, location, date, type, removeImageIds } = req.body;
+    const { title, description, location, date, endDate, type, removeImageIds } = req.body;
 
     const existingEvent = await prisma.event.findUnique({ 
       where: { id },
@@ -122,6 +123,7 @@ export const updateEvent = async (req, res) => {
         description,
         location,
         date,
+        endDate,
         type,
       },
       include: { images: true }
